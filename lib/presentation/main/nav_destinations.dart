@@ -10,6 +10,8 @@ class NavDestinationSpec {
     required this.selectedIcon,
     required this.cupertinoIcon,
     required this.cupertinoSelectedIcon,
+    required this.sfSymbol,
+    required this.selectedSfSymbol,
     required this.label,
   });
 
@@ -18,6 +20,8 @@ class NavDestinationSpec {
   final IconData selectedIcon;
   final IconData cupertinoIcon;
   final IconData cupertinoSelectedIcon;
+  final String sfSymbol;
+  final String selectedSfSymbol;
   final String label;
 
   PlatformDestination toPlatformDestination() {
@@ -27,6 +31,8 @@ class NavDestinationSpec {
       selectedIcon: selectedIcon,
       cupertinoIcon: cupertinoIcon,
       cupertinoSelectedIcon: cupertinoSelectedIcon,
+      sfSymbol: sfSymbol,
+      selectedSfSymbol: selectedSfSymbol,
       label: label,
     );
   }
@@ -40,6 +46,8 @@ abstract final class NavDestinations {
       selectedIcon: Icons.home,
       cupertinoIcon: CupertinoIcons.house,
       cupertinoSelectedIcon: CupertinoIcons.house_fill,
+      sfSymbol: 'house',
+      selectedSfSymbol: 'house.fill',
       label: 'Home',
     ),
     NavDestinationSpec(
@@ -48,6 +56,8 @@ abstract final class NavDestinations {
       selectedIcon: Icons.explore,
       cupertinoIcon: CupertinoIcons.compass,
       cupertinoSelectedIcon: CupertinoIcons.compass_fill,
+      sfSymbol: 'safari',
+      selectedSfSymbol: 'safari.fill',
       label: 'Explore',
     ),
     NavDestinationSpec(
@@ -56,6 +66,8 @@ abstract final class NavDestinations {
       selectedIcon: Icons.person,
       cupertinoIcon: CupertinoIcons.person,
       cupertinoSelectedIcon: CupertinoIcons.person_fill,
+      sfSymbol: 'person',
+      selectedSfSymbol: 'person.fill',
       label: 'Profile',
     ),
   ];

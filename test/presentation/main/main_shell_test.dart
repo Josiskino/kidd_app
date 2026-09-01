@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:kid_app/app.dart';
 import 'package:kid_app/core/platform/app_platform.dart';
 
@@ -28,8 +29,8 @@ void main() {
       child: const KidApp(),
     );
 
-    expect(find.byType(CupertinoTabScaffold), findsOneWidget);
-    expect(find.byType(CupertinoTabBar), findsOneWidget);
+    expect(find.byType(AdaptiveScaffold), findsWidgets);
+    expect(find.byType(CupertinoTabScaffold), findsNothing);
     expect(find.text('Home'), findsOneWidget);
     expect(find.text('Explore'), findsOneWidget);
     expect(find.text('Profile'), findsOneWidget);

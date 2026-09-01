@@ -1,7 +1,7 @@
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' show Material, MaterialType;
 
-import '../../../config/theme/design_tokens.dart';
 import '../app_platform.dart';
 import '../platform_ui.dart';
 
@@ -36,22 +36,26 @@ class CupertinoShell implements PlatformShell {
     required ValueChanged<int> onSelected,
     Color? backgroundColor,
   }) {
-    return CupertinoTabScaffold(
+    return AdaptiveScaffold(
       key: key,
-      backgroundColor: backgroundColor,
-      tabBar: CupertinoTabBar(
-        currentIndex: selectedIndex,
+      enableToolbarGradient: false,
+      enableBlur: false,
+      body: _withBackground(_withMaterial(body), backgroundColor),
+      bottomNavigationBar: AdaptiveBottomNavigationBar(
+        useNativeBottomBar: true,
+        selectedIndex: selectedIndex,
         onTap: onSelected,
         items: [
           for (final destination in destinations)
-            BottomNavigationBarItem(
-              icon: Icon(destination.cupertinoIcon),
-              activeIcon: Icon(destination.cupertinoSelectedIcon),
+            AdaptiveNavigationDestination(
+              icon: destination.sfSymbol ?? destination.cupertinoIcon,
+              selectedIcon:
+                  destination.selectedSfSymbol ??
+                  destination.cupertinoSelectedIcon,
               label: destination.label,
             ),
         ],
       ),
-      tabBuilder: (context, index) => body,
     );
   }
 
@@ -64,31 +68,38 @@ class CupertinoShell implements PlatformShell {
     Color? backgroundColor,
     bool resizeToAvoidBottomInset = true,
   }) {
-    return CupertinoPageScaffold(
+    return AdaptiveScaffold(
       key: key,
-      backgroundColor: backgroundColor,
+      enableToolbarGradient: false,
+      enableBlur: false,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-      navigationBar: CupertinoNavigationBar(
-        middle: Text(title),
-        trailing: actions.isEmpty
+      appBar: AdaptiveAppBar(
+        title: title,
+        useNativeToolbar: true,
+        actions: actions.isEmpty
             ? null
-            : Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  for (final action in actions)
-                    CupertinoButton(
-                      padding: EdgeInsets.zero,
-                      onPressed: action.onPressed,
-                      child: Icon(action.icon, semanticLabel: action.label),
-                    ),
-                ],
-              ),
+            : [
+                for (final action in actions)
+                  AdaptiveAppBarAction(
+                    icon: action.icon,
+                    onPressed: action.onPressed,
+                  ),
+              ],
       ),
-      child: SafeArea(
+      body: SafeArea(
         top: false,
-        child: Material(type: MaterialType.transparency, child: body),
+        child: _withBackground(_withMaterial(body), backgroundColor),
       ),
     );
+  }
+
+  static Widget _withMaterial(Widget child) {
+    return Material(type: MaterialType.transparency, child: child);
+  }
+
+  static Widget _withBackground(Widget child, Color? color) {
+    if (color == null) return child;
+    return ColoredBox(color: color, child: child);
   }
 }
 
@@ -101,7 +112,7 @@ class CupertinoControls implements PlatformControls {
     required bool value,
     required ValueChanged<bool>? onChanged,
   }) {
-    return CupertinoSwitch(key: key, value: value, onChanged: onChanged);
+    return AdaptiveSwitch(key: key, value: value, onChanged: onChanged);
   }
 
   @override
@@ -116,30 +127,15 @@ class CupertinoControls implements PlatformControls {
     TextInputType? keyboardType,
     ValueChanged<String>? onSubmitted,
   }) {
-    return CupertinoTextField(
+    return AdaptiveTextField(
       key: key,
       controller: controller,
       placeholder: placeholder ?? label,
-      prefix: prefixIcon == null
-          ? null
-          : Padding(
-              padding: const EdgeInsetsDirectional.only(start: 12),
-              child: prefixIcon,
-            ),
-      suffix: suffixIcon == null
-          ? null
-          : Padding(
-              padding: const EdgeInsetsDirectional.only(end: 12),
-              child: suffixIcon,
-            ),
+      prefixIcon: prefixIcon,
+      suffixIcon: suffixIcon,
       obscureText: obscureText,
       keyboardType: keyboardType,
       onSubmitted: onSubmitted,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-      decoration: BoxDecoration(
-        color: CupertinoColors.secondarySystemGroupedBackground,
-        borderRadius: BorderRadius.circular(DesignTokens.radiusM),
-      ),
     );
   }
 
@@ -149,12 +145,7 @@ class CupertinoControls implements PlatformControls {
     required Widget child,
     required VoidCallback? onPressed,
   }) {
-    return CupertinoButton.filled(
-      key: key,
-      onPressed: onPressed,
-      borderRadius: BorderRadius.circular(DesignTokens.radiusM),
-      child: child,
-    );
+    return AdaptiveButton.child(key: key, onPressed: onPressed, child: child);
   }
 
   @override
@@ -203,15 +194,10 @@ class CupertinoOverlays implements PlatformOverlays {
     required String message,
     bool isError = false,
   }) {
-    showCupertinoModalPopup<void>(
-      context: context,
-      builder: (sheetContext) => CupertinoActionSheet(
-        title: Text(message),
-        cancelButton: CupertinoActionSheetAction(
-          onPressed: () => Navigator.of(sheetContext).pop(),
-          child: const Text('OK'),
-        ),
-      ),
+    AdaptiveSnackBar.show(
+      context,
+      message: message,
+      type: isError ? AdaptiveSnackBarType.error : AdaptiveSnackBarType.info,
     );
   }
 }

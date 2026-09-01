@@ -35,6 +35,8 @@ class PlatformDestination {
     required this.cupertinoIcon,
     required this.cupertinoSelectedIcon,
     required this.label,
+    this.sfSymbol,
+    this.selectedSfSymbol,
     this.key,
   });
 
@@ -43,6 +45,8 @@ class PlatformDestination {
   final IconData cupertinoIcon;
   final IconData cupertinoSelectedIcon;
   final String label;
+  final String? sfSymbol;
+  final String? selectedSfSymbol;
   final Key? key;
 }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'config/theme/cupertino_theme.dart';
 import 'config/theme/theme.dart';
@@ -20,6 +21,12 @@ class KidApp extends ConsumerWidget {
         title: 'Kid App',
         theme: KidCupertinoTheme.lightTheme,
         debugShowCheckedModeBanner: false,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('en'), Locale('fr')],
         home: const MainShell(),
       );
     }
@@ -29,6 +36,12 @@ class KidApp extends ConsumerWidget {
       theme: KidAppTheme.lightThemeData(),
       darkTheme: KidAppTheme.darkThemeData(),
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('en'), Locale('fr')],
       home: const MainShell(),
     );
   }

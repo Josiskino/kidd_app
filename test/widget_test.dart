@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 
 import 'package:kid_app/app.dart';
 import 'package:kid_app/core/platform/app_platform.dart';
@@ -38,11 +39,8 @@ void main() {
     );
 
     expect(find.byType(CupertinoApp), findsOneWidget);
-    expect(find.byType(CupertinoTabScaffold), findsOneWidget);
-    expect(find.byType(CupertinoTabBar), findsOneWidget);
-    expect(find.byType(CupertinoPageScaffold), findsOneWidget);
-    expect(find.byType(CupertinoNavigationBar), findsOneWidget);
-    expect(find.byType(AppBar), findsNothing);
+    expect(find.byType(AdaptiveScaffold), findsWidgets);
+    expect(find.byType(CupertinoTabScaffold), findsNothing);
   });
 
   testWidgets('Main navigation switches tabs on Android', (tester) async {
