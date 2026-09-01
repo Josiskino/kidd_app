@@ -29,6 +29,35 @@ class MaterialShell implements PlatformShell {
   const MaterialShell();
 
   @override
+  Widget buildMainShell({
+    Key? key,
+    required Widget body,
+    required List<PlatformDestination> destinations,
+    required int selectedIndex,
+    required ValueChanged<int> onSelected,
+    Color? backgroundColor,
+  }) {
+    return Scaffold(
+      key: key,
+      backgroundColor: backgroundColor,
+      body: body,
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: selectedIndex,
+        onDestinationSelected: onSelected,
+        destinations: [
+          for (final destination in destinations)
+            NavigationDestination(
+              key: destination.key,
+              icon: Icon(destination.icon),
+              selectedIcon: Icon(destination.selectedIcon),
+              label: destination.label,
+            ),
+        ],
+      ),
+    );
+  }
+
+  @override
   Widget buildPage({
     Key? key,
     required String title,

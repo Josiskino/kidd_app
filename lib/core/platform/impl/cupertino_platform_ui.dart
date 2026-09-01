@@ -28,6 +28,34 @@ class CupertinoShell implements PlatformShell {
   const CupertinoShell();
 
   @override
+  Widget buildMainShell({
+    Key? key,
+    required Widget body,
+    required List<PlatformDestination> destinations,
+    required int selectedIndex,
+    required ValueChanged<int> onSelected,
+    Color? backgroundColor,
+  }) {
+    return CupertinoTabScaffold(
+      key: key,
+      backgroundColor: backgroundColor,
+      tabBar: CupertinoTabBar(
+        currentIndex: selectedIndex,
+        onTap: onSelected,
+        items: [
+          for (final destination in destinations)
+            BottomNavigationBarItem(
+              icon: Icon(destination.cupertinoIcon),
+              activeIcon: Icon(destination.cupertinoSelectedIcon),
+              label: destination.label,
+            ),
+        ],
+      ),
+      tabBuilder: (context, index) => body,
+    );
+  }
+
+  @override
   Widget buildPage({
     Key? key,
     required String title,
@@ -109,12 +137,7 @@ class CupertinoControls implements PlatformControls {
       onSubmitted: onSubmitted,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       decoration: BoxDecoration(
-        color: CupertinoDynamicColor.resolve(
-          CupertinoColors.secondarySystemGroupedBackground,
-          key == null
-              ? WidgetsBinding.instance.rootElement!
-              : key as BuildContext,
-        ),
+        color: CupertinoColors.secondarySystemGroupedBackground,
         borderRadius: BorderRadius.circular(DesignTokens.radiusM),
       ),
     );

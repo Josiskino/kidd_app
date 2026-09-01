@@ -28,7 +28,34 @@ class PlatformMenuAction {
   final bool isDestructive;
 }
 
+class PlatformDestination {
+  const PlatformDestination({
+    required this.icon,
+    required this.selectedIcon,
+    required this.cupertinoIcon,
+    required this.cupertinoSelectedIcon,
+    required this.label,
+    this.key,
+  });
+
+  final IconData icon;
+  final IconData selectedIcon;
+  final IconData cupertinoIcon;
+  final IconData cupertinoSelectedIcon;
+  final String label;
+  final Key? key;
+}
+
 abstract interface class PlatformShell {
+  Widget buildMainShell({
+    Key? key,
+    required Widget body,
+    required List<PlatformDestination> destinations,
+    required int selectedIndex,
+    required ValueChanged<int> onSelected,
+    Color? backgroundColor,
+  });
+
   Widget buildPage({
     Key? key,
     required String title,

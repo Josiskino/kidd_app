@@ -36,7 +36,7 @@ class HomeScreen extends ConsumerWidget {
       body: ListView(
         padding: DesignTokens.pagePadding,
         children: [
-          Text('Front foundation', style: theme.textTheme.headlineMedium),
+          Text('Home foundation', style: theme.textTheme.headlineMedium),
           const SizedBox(height: DesignTokens.spaceS),
           Text(
             'Theme, platform controls, and page shells are ready before data and domain layers arrive.',

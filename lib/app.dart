@@ -6,7 +6,7 @@ import 'config/theme/cupertino_theme.dart';
 import 'config/theme/theme.dart';
 import 'core/platform/app_platform.dart';
 import 'core/platform/platform_ui_provider.dart';
-import 'presentation/pages/home/home_screen.dart';
+import 'presentation/main/main_shell.dart';
 
 class KidApp extends ConsumerWidget {
   const KidApp({super.key});
@@ -20,7 +20,7 @@ class KidApp extends ConsumerWidget {
         title: 'Kid App',
         theme: KidCupertinoTheme.lightTheme,
         debugShowCheckedModeBanner: false,
-        home: const HomeScreen(),
+        home: const MainShell(),
       );
     }
 
@@ -29,7 +29,7 @@ class KidApp extends ConsumerWidget {
       theme: KidAppTheme.lightThemeData(),
       darkTheme: KidAppTheme.darkThemeData(),
       debugShowCheckedModeBanner: false,
-      home: const HomeScreen(),
+      home: const MainShell(),
     );
   }
 }
