@@ -30,4 +30,20 @@ void main() {
     expect(scaffold.bottomNavigationBar, isA<AdaptiveBottomNavigationBar>());
     expect(scaffold.bottomNavigationBar!.useNativeBottomBar, isTrue);
   });
+
+  test('CupertinoShell keeps page content below the native top chrome', () {
+    final shell = const CupertinoShell();
+    final widget = shell.buildPage(
+      title: 'Kid App',
+      body: const Text('Page body'),
+    );
+
+    expect(widget, isA<AdaptiveScaffold>());
+
+    final scaffold = widget as AdaptiveScaffold;
+    expect(scaffold.body, isA<SafeArea>());
+
+    final safeArea = scaffold.body! as SafeArea;
+    expect(safeArea.top, isTrue);
+  });
 }

@@ -87,7 +87,6 @@ class CupertinoShell implements PlatformShell {
               ],
       ),
       body: SafeArea(
-        top: false,
         child: _withBackground(_withMaterial(body), backgroundColor),
       ),
     );
