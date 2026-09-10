@@ -67,95 +67,81 @@ class _StarterScreenState extends ConsumerState<StarterScreen> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final shortestSide = mediaQuery.size.shortestSide;
-    final cardRadius = shortestSide < 390 ? 26.0 : 34.0;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFE90707),
-      body: SafeArea(
-        minimum: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
-        child: Center(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(cardRadius),
-            child: Stack(
-              fit: StackFit.expand,
+      backgroundColor: CupertinoColors.black,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          const Image(
+            image: AssetImage('assets/images/starter_anime_collage.png'),
+            fit: BoxFit.cover,
+            alignment: Alignment.center,
+          ),
+          const DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0x33000000),
+                  Color(0x99000000),
+                  Color(0xD9000000),
+                ],
+                stops: [0, 0.46, 1],
+              ),
+            ),
+          ),
+          SafeArea(
+            minimum: const EdgeInsets.fromLTRB(32, 18, 32, 44),
+            child: Column(
               children: [
-                const Image(
-                  image: AssetImage('assets/images/starter_anime_collage.png'),
-                  fit: BoxFit.cover,
-                  alignment: Alignment.center,
-                ),
-                const DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color(0x33000000),
-                        Color(0x99000000),
-                        Color(0xCC000000),
-                      ],
-                      stops: [0, 0.48, 1],
-                    ),
+                const _StarterStatusBar(),
+                const Spacer(),
+                const _StarterMark(),
+                const SizedBox(height: 28),
+                Text(
+                  'Start Stream',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                    color: CupertinoColors.white,
+                    fontWeight: FontWeight.w800,
+                    height: 1.08,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(28, 28, 28, 48),
-                  child: Column(
-                    children: [
-                      const _StarterStatusBar(),
-                      const Spacer(),
-                      const _StarterMark(),
-                      const SizedBox(height: 28),
-                      Text(
-                        'Start Stream',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.displaySmall
-                            ?.copyWith(
-                              color: CupertinoColors.white,
-                              fontWeight: FontWeight.w800,
-                              height: 1.08,
-                            ),
-                      ),
-                      Text(
-                        'Unlimited Anime',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.displaySmall
-                            ?.copyWith(
-                              color: CupertinoColors.white,
-                              fontWeight: FontWeight.w800,
-                              height: 1.08,
-                            ),
-                      ),
-                      const SizedBox(height: 18),
-                      Text(
-                        'Discover thousands of series and\nmovies tailored to your taste.',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(
-                              color: CupertinoColors.white.withValues(
-                                alpha: 0.78,
-                              ),
-                              height: 1.35,
-                              fontWeight: FontWeight.w500,
-                            ),
-                      ),
-                      const SizedBox(height: 30),
-                      FractionallySizedBox(
-                        widthFactor: shortestSide < 390 ? 0.92 : 0.82,
-                        child: _SwipeStartControl(
-                          progress: _dragProgress,
-                          onTap: _complete,
-                          onDragUpdate: _handleDragUpdate,
-                          onDragEnd: _handleDragEnd,
-                        ),
-                      ),
-                    ],
+                Text(
+                  'Unlimited Anime',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                    color: CupertinoColors.white,
+                    fontWeight: FontWeight.w800,
+                    height: 1.08,
+                  ),
+                ),
+                const SizedBox(height: 18),
+                Text(
+                  'Discover thousands of series and\nmovies tailored to your taste.',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: CupertinoColors.white.withValues(alpha: 0.78),
+                    height: 1.35,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 30),
+                FractionallySizedBox(
+                  widthFactor: shortestSide < 390 ? 0.92 : 0.82,
+                  child: _SwipeStartControl(
+                    progress: _dragProgress,
+                    onTap: _complete,
+                    onDragUpdate: _handleDragUpdate,
+                    onDragEnd: _handleDragEnd,
                   ),
                 ),
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -196,8 +182,8 @@ class _StarterMark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 92,
-      height: 92,
+      width: 104,
+      height: 104,
       decoration: BoxDecoration(
         color: CupertinoColors.white.withValues(alpha: 0.94),
         shape: BoxShape.circle,
@@ -210,15 +196,11 @@ class _StarterMark extends StatelessWidget {
           ),
         ],
       ),
-      child: const Center(
-        child: Text(
-          'ANY-ME',
-          style: TextStyle(
-            color: Color(0xFFE90707),
-            fontSize: 13,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 0,
-          ),
+      child: const Padding(
+        padding: EdgeInsets.all(12),
+        child: Image(
+          image: AssetImage('assets/images/starter_logo.png'),
+          fit: BoxFit.contain,
         ),
       ),
     );
