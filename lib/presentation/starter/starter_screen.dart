@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -181,26 +183,42 @@ class _StarterMark extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 104,
-      height: 104,
-      decoration: BoxDecoration(
-        color: CupertinoColors.white.withValues(alpha: 0.94),
-        shape: BoxShape.circle,
-        border: Border.all(color: const Color(0xFFE2E3EA), width: 2),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x40000000),
-            blurRadius: 24,
-            offset: Offset(0, 12),
+    return ClipOval(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+        child: Container(
+          width: 104,
+          height: 104,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                CupertinoColors.white.withValues(alpha: 0.68),
+                const Color(0xFF7A6BFF).withValues(alpha: 0.30),
+                CupertinoColors.white.withValues(alpha: 0.44),
+              ],
+            ),
+            border: Border.all(
+              color: CupertinoColors.white.withValues(alpha: 0.72),
+              width: 1.5,
+            ),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x4D000000),
+                blurRadius: 28,
+                offset: Offset(0, 14),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: const Padding(
-        padding: EdgeInsets.all(12),
-        child: Image(
-          image: AssetImage('assets/images/starter_logo.png'),
-          fit: BoxFit.contain,
+          child: const Padding(
+            padding: EdgeInsets.all(10),
+            child: Image(
+              image: AssetImage('assets/images/starter_logo.png'),
+              fit: BoxFit.contain,
+            ),
+          ),
         ),
       ),
     );
@@ -233,55 +251,98 @@ class _SwipeStartControl extends StatelessWidget {
           onTap: onTap,
           onHorizontalDragUpdate: (details) => onDragUpdate(details, maxTravel),
           onHorizontalDragEnd: onDragEnd,
-          child: Container(
-            height: 72,
-            decoration: BoxDecoration(
-              color: CupertinoColors.white,
-              borderRadius: BorderRadius.circular(36),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x33000000),
-                  blurRadius: 24,
-                  offset: Offset(0, 12),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(36),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
+              child: Container(
+                height: 72,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(36),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      CupertinoColors.white.withValues(alpha: 0.88),
+                      CupertinoColors.white.withValues(alpha: 0.58),
+                      const Color(0xFFE9F0FF).withValues(alpha: 0.72),
+                    ],
+                  ),
+                  border: Border.all(
+                    color: CupertinoColors.white.withValues(alpha: 0.76),
+                    width: 1.4,
+                  ),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x4D000000),
+                      blurRadius: 34,
+                      offset: Offset(0, 16),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 76, right: 22),
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      'SWIPE FOR START',
-                      maxLines: 1,
-                      style: TextStyle(
-                        color: Color(0xFF141414),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 0,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Positioned.fill(
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              CupertinoColors.white.withValues(alpha: 0.48),
+                              CupertinoColors.white.withValues(alpha: 0),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Positioned(
-                  left: 7 + dx,
-                  child: Container(
-                    width: knobSize,
-                    height: knobSize,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFE90707),
-                      shape: BoxShape.circle,
+                    const Padding(
+                      padding: EdgeInsets.only(left: 76, right: 22),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          'SWIPE FOR START',
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: Color(0xFF141414),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 0,
+                          ),
+                        ),
+                      ),
                     ),
-                    child: const Icon(
-                      CupertinoIcons.chevron_right_2,
-                      color: CupertinoColors.white,
-                      size: 24,
+                    Positioned(
+                      left: 7 + dx,
+                      child: Container(
+                        width: knobSize,
+                        height: knobSize,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [Color(0xFFFF2B2B), Color(0xFFE90707)],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0x66E90707),
+                              blurRadius: 18,
+                              offset: Offset(0, 8),
+                            ),
+                          ],
+                        ),
+                        child: const Icon(
+                          CupertinoIcons.chevron_right_2,
+                          color: CupertinoColors.white,
+                          size: 24,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         );

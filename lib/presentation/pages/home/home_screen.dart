@@ -29,7 +29,7 @@ class HomeScreen extends ConsumerWidget {
     final isDark = theme.brightness == Brightness.dark;
 
     return PlatformPage(
-      title: 'Kid App',
+      title: 'Kidoo',
       backgroundColor: isDark
           ? AppColors.backgroundDark
           : AppColors.backgroundLight,

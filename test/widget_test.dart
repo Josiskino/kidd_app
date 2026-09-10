@@ -30,7 +30,7 @@ void main() {
     await tester.tap(find.text('SWIPE FOR START'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Kid App'), findsOneWidget);
+    expect(find.text('Kidoo'), findsOneWidget);
     expect(find.text('Home foundation'), findsOneWidget);
   });
 

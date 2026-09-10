@@ -1,6 +1,6 @@
 {
-    "name": "kid_app",
-    "short_name": "kid_app",
+    "name": "Kidoo",
+    "short_name": "Kidoo",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#2415D8",

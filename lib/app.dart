@@ -18,7 +18,7 @@ class KidApp extends ConsumerWidget {
 
     if (platform == AppPlatform.ios) {
       return CupertinoApp(
-        title: 'Kid App',
+        title: 'Kidoo',
         theme: KidCupertinoTheme.lightTheme,
         debugShowCheckedModeBanner: false,
         localizationsDelegates: const [
@@ -32,7 +32,7 @@ class KidApp extends ConsumerWidget {
     }
 
     return MaterialApp(
-      title: 'Kid App',
+      title: 'Kidoo',
       theme: KidAppTheme.lightThemeData(),
       darkTheme: KidAppTheme.darkThemeData(),
       debugShowCheckedModeBanner: false,
