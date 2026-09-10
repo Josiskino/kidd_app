@@ -42,24 +42,9 @@ class CupertinoShell implements PlatformShell {
       enableBlur: false,
       body: _withBackground(_withMaterial(body), backgroundColor),
       bottomNavigationBar: AdaptiveBottomNavigationBar(
-        useNativeBottomBar: false,
+        useNativeBottomBar: true,
         selectedIndex: selectedIndex,
         onTap: onSelected,
-        cupertinoTabBar: CupertinoTabBar(
-          currentIndex: selectedIndex,
-          onTap: onSelected,
-          backgroundColor: CupertinoColors.transparent,
-          border: null,
-          activeColor: CupertinoThemeData().primaryColor,
-          items: [
-            for (final destination in destinations)
-              BottomNavigationBarItem(
-                icon: Icon(destination.cupertinoIcon),
-                activeIcon: Icon(destination.cupertinoSelectedIcon),
-                label: destination.label,
-              ),
-          ],
-        ),
         items: [
           for (final destination in destinations)
             AdaptiveNavigationDestination(
