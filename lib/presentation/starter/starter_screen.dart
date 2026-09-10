@@ -100,8 +100,6 @@ class _StarterScreenState extends ConsumerState<StarterScreen> {
               children: [
                 const _StarterStatusBar(),
                 const Spacer(),
-                const _StarterMark(),
-                const SizedBox(height: 28),
                 Text(
                   'Start Stream',
                   textAlign: TextAlign.center,
@@ -178,53 +176,6 @@ class _StarterStatusBar extends StatelessWidget {
   }
 }
 
-class _StarterMark extends StatelessWidget {
-  const _StarterMark();
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipOval(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-        child: Container(
-          width: 104,
-          height: 104,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                CupertinoColors.white.withValues(alpha: 0.68),
-                const Color(0xFF7A6BFF).withValues(alpha: 0.30),
-                CupertinoColors.white.withValues(alpha: 0.44),
-              ],
-            ),
-            border: Border.all(
-              color: CupertinoColors.white.withValues(alpha: 0.72),
-              width: 1.5,
-            ),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x4D000000),
-                blurRadius: 28,
-                offset: Offset(0, 14),
-              ),
-            ],
-          ),
-          child: const Padding(
-            padding: EdgeInsets.all(10),
-            child: Image(
-              image: AssetImage('assets/images/starter_logo.png'),
-              fit: BoxFit.contain,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _SwipeStartControl extends StatelessWidget {
   const _SwipeStartControl({
     required this.progress,
@@ -263,20 +214,20 @@ class _SwipeStartControl extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      CupertinoColors.white.withValues(alpha: 0.88),
-                      CupertinoColors.white.withValues(alpha: 0.58),
-                      const Color(0xFFE9F0FF).withValues(alpha: 0.72),
+                      CupertinoColors.white.withValues(alpha: 0.30),
+                      CupertinoColors.white.withValues(alpha: 0.13),
+                      const Color(0xFFB9C7FF).withValues(alpha: 0.18),
                     ],
                   ),
                   border: Border.all(
-                    color: CupertinoColors.white.withValues(alpha: 0.76),
+                    color: CupertinoColors.white.withValues(alpha: 0.48),
                     width: 1.4,
                   ),
                   boxShadow: const [
                     BoxShadow(
-                      color: Color(0x4D000000),
-                      blurRadius: 34,
-                      offset: Offset(0, 16),
+                      color: Color(0x59000000),
+                      blurRadius: 30,
+                      offset: Offset(0, 14),
                     ),
                   ],
                 ),
@@ -290,7 +241,7 @@ class _SwipeStartControl extends StatelessWidget {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              CupertinoColors.white.withValues(alpha: 0.48),
+                              CupertinoColors.white.withValues(alpha: 0.24),
                               CupertinoColors.white.withValues(alpha: 0),
                             ],
                           ),
@@ -305,10 +256,17 @@ class _SwipeStartControl extends StatelessWidget {
                           'SWIPE FOR START',
                           maxLines: 1,
                           style: TextStyle(
-                            color: Color(0xFF141414),
+                            color: CupertinoColors.white,
                             fontSize: 15,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 0,
+                            shadows: [
+                              Shadow(
+                                color: Color(0x8C000000),
+                                blurRadius: 12,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
                           ),
                         ),
                       ),
