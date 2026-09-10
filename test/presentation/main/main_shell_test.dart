@@ -16,6 +16,9 @@ void main() {
       child: const KidApp(),
     );
 
+    await tester.tap(find.text('SWIPE FOR START'));
+    await tester.pumpAndSettle();
+
     expect(find.byType(NavigationBar), findsOneWidget);
     expect(find.byType(NavigationDestination), findsNWidgets(3));
     expect(find.text('Home'), findsOneWidget);
@@ -28,6 +31,9 @@ void main() {
       platform: AppPlatform.ios,
       child: const KidApp(),
     );
+
+    await tester.tap(find.text('SWIPE FOR START'));
+    await tester.pumpAndSettle();
 
     expect(find.byType(AdaptiveScaffold), findsWidgets);
     expect(find.byType(CupertinoTabScaffold), findsNothing);

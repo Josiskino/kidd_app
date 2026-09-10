@@ -9,11 +9,26 @@ import 'package:kid_app/core/platform/app_platform.dart';
 import 'helpers/test_app.dart';
 
 void main() {
-  testWidgets('KidApp renders the home screen', (tester) async {
+  testWidgets('KidApp renders the starter screen first', (tester) async {
     await tester.pumpWithPlatform(
       platform: AppPlatform.android,
       child: const KidApp(),
     );
+
+    expect(find.text('Start Stream'), findsOneWidget);
+    expect(find.text('Unlimited Anime'), findsOneWidget);
+    expect(find.text('SWIPE FOR START'), findsOneWidget);
+    expect(find.text('Home foundation'), findsNothing);
+  });
+
+  testWidgets('Starter screen opens the home shell', (tester) async {
+    await tester.pumpWithPlatform(
+      platform: AppPlatform.android,
+      child: const KidApp(),
+    );
+
+    await tester.tap(find.text('SWIPE FOR START'));
+    await tester.pumpAndSettle();
 
     expect(find.text('Kid App'), findsOneWidget);
     expect(find.text('Home foundation'), findsOneWidget);
@@ -24,6 +39,9 @@ void main() {
       platform: AppPlatform.android,
       child: const KidApp(),
     );
+
+    await tester.tap(find.text('SWIPE FOR START'));
+    await tester.pumpAndSettle();
 
     expect(find.byType(MaterialApp), findsOneWidget);
     expect(find.byType(Scaffold), findsWidgets);
@@ -38,6 +56,9 @@ void main() {
       child: const KidApp(),
     );
 
+    await tester.tap(find.text('SWIPE FOR START'));
+    await tester.pumpAndSettle();
+
     expect(find.byType(CupertinoApp), findsOneWidget);
     expect(find.byType(AdaptiveScaffold), findsWidgets);
     expect(find.byType(CupertinoTabScaffold), findsNothing);
@@ -48,6 +69,9 @@ void main() {
       platform: AppPlatform.android,
       child: const KidApp(),
     );
+
+    await tester.tap(find.text('SWIPE FOR START'));
+    await tester.pumpAndSettle();
 
     await tester.tap(find.text('Profile'));
     await tester.pumpAndSettle();

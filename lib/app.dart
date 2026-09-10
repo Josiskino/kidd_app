@@ -7,7 +7,7 @@ import 'config/theme/cupertino_theme.dart';
 import 'config/theme/theme.dart';
 import 'core/platform/app_platform.dart';
 import 'core/platform/platform_ui_provider.dart';
-import 'presentation/main/main_shell.dart';
+import 'presentation/app_entry.dart';
 
 class KidApp extends ConsumerWidget {
   const KidApp({super.key});
@@ -27,7 +27,7 @@ class KidApp extends ConsumerWidget {
           GlobalWidgetsLocalizations.delegate,
         ],
         supportedLocales: const [Locale('en'), Locale('fr')],
-        home: const MainShell(),
+        home: const AppEntry(),
       );
     }
 
@@ -42,7 +42,7 @@ class KidApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: const [Locale('en'), Locale('fr')],
-      home: const MainShell(),
+      home: const AppEntry(),
     );
   }
 }
