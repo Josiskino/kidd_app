@@ -176,7 +176,7 @@ class _StarterStatusBar extends StatelessWidget {
   }
 }
 
-class _SwipeStartControl extends StatelessWidget {
+class _SwipeStartControl extends StatefulWidget {
   const _SwipeStartControl({
     required this.progress,
     required this.onTap,
@@ -191,21 +191,43 @@ class _SwipeStartControl extends StatelessWidget {
   final GestureDragEndCallback onDragEnd;
 
   @override
+  State<_SwipeStartControl> createState() => _SwipeStartControlState();
+}
+
+class _SwipeStartControlState extends State<_SwipeStartControl>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _shimmer = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 2200),
+  )..repeat();
+
+  @override
+  void dispose() {
+    _shimmer.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final progress = widget.progress;
+
     return LayoutBuilder(
       builder: (context, constraints) {
         const knobSize = 58.0;
         final maxTravel = constraints.maxWidth - knobSize - 14;
         final dx = (maxTravel * progress).clamp(0.0, maxTravel);
+        // The sweep fades out while the user drags the knob.
+        final sweepOpacity = (1 - progress * 1.6).clamp(0.0, 1.0);
 
         return GestureDetector(
-          onTap: onTap,
-          onHorizontalDragUpdate: (details) => onDragUpdate(details, maxTravel),
-          onHorizontalDragEnd: onDragEnd,
+          onTap: widget.onTap,
+          onHorizontalDragUpdate: (details) =>
+              widget.onDragUpdate(details, maxTravel),
+          onHorizontalDragEnd: widget.onDragEnd,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(36),
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
+              filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
               child: Container(
                 height: 72,
                 decoration: BoxDecoration(
@@ -214,18 +236,18 @@ class _SwipeStartControl extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      CupertinoColors.white.withValues(alpha: 0.30),
-                      CupertinoColors.white.withValues(alpha: 0.13),
-                      const Color(0xFFB9C7FF).withValues(alpha: 0.18),
+                      CupertinoColors.white.withValues(alpha: 0.14),
+                      CupertinoColors.white.withValues(alpha: 0.05),
+                      const Color(0xFFB9C7FF).withValues(alpha: 0.08),
                     ],
                   ),
                   border: Border.all(
-                    color: CupertinoColors.white.withValues(alpha: 0.48),
-                    width: 1.4,
+                    color: CupertinoColors.white.withValues(alpha: 0.28),
+                    width: 1.2,
                   ),
                   boxShadow: const [
                     BoxShadow(
-                      color: Color(0x59000000),
+                      color: Color(0x33000000),
                       blurRadius: 30,
                       offset: Offset(0, 14),
                     ),
@@ -241,32 +263,70 @@ class _SwipeStartControl extends StatelessWidget {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              CupertinoColors.white.withValues(alpha: 0.24),
+                              CupertinoColors.white.withValues(alpha: 0.12),
                               CupertinoColors.white.withValues(alpha: 0),
                             ],
                           ),
                         ),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 76, right: 22),
+                    Positioned.fill(
+                      child: IgnorePointer(
+                        child: Opacity(
+                          opacity: sweepOpacity,
+                          child: AnimatedBuilder(
+                            animation: _shimmer,
+                            builder: (context, _) => DecoratedBox(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    CupertinoColors.white.withValues(alpha: 0),
+                                    CupertinoColors.white.withValues(
+                                      alpha: 0.22,
+                                    ),
+                                    CupertinoColors.white.withValues(alpha: 0),
+                                  ],
+                                  stops: const [0.35, 0.5, 0.65],
+                                  transform: _SlideGradientTransform(
+                                    _shimmer.value,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 76, right: 22),
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
-                        child: Text(
-                          'SWIPE FOR START',
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: CupertinoColors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 0,
-                            shadows: [
-                              Shadow(
-                                color: Color(0x8C000000),
-                                blurRadius: 12,
-                                offset: Offset(0, 2),
+                        child: AnimatedBuilder(
+                          animation: _shimmer,
+                          builder: (context, child) => ShaderMask(
+                            blendMode: BlendMode.srcIn,
+                            shaderCallback: (bounds) => LinearGradient(
+                              colors: [
+                                CupertinoColors.white.withValues(alpha: 0.55),
+                                CupertinoColors.white,
+                                CupertinoColors.white.withValues(alpha: 0.55),
+                              ],
+                              stops: const [0.3, 0.5, 0.7],
+                              transform: _SlideGradientTransform(
+                                _shimmer.value,
                               ),
-                            ],
+                            ).createShader(bounds),
+                            child: child,
+                          ),
+                          child: const Text(
+                            'SWIPE FOR START',
+                            maxLines: 1,
+                            style: TextStyle(
+                              color: CupertinoColors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 0,
+                            ),
                           ),
                         ),
                       ),
@@ -306,5 +366,18 @@ class _SwipeStartControl extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+/// Slides a gradient horizontally: 0 → fully off the left edge,
+/// 1 → fully off the right edge.
+class _SlideGradientTransform extends GradientTransform {
+  const _SlideGradientTransform(this.t);
+
+  final double t;
+
+  @override
+  Matrix4? transform(Rect bounds, {TextDirection? textDirection}) {
+    return Matrix4.translationValues(bounds.width * (t * 2 - 1), 0, 0);
   }
 }
